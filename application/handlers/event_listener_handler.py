@@ -1,5 +1,5 @@
 from constant import Status
-from application.services.event_listner import EventListener
+from application.services.event_listener import EventListener
 
 
 def listen_to_ethereum_events(event, context):

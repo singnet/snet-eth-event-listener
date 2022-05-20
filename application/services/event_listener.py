@@ -34,7 +34,7 @@ class EventListener:
         raw_events = self.get_events(start_block_no, end_block_no)
 
         # update events table
-        # event_marker_repo.update_last_block_no(contract_id, end_block_no)
+        event_marker_repo.update_last_block_no(contract_id, end_block_no)
         event_repo.update_events(contract_id, self.contract.contract_name, raw_events)
 
     def calculate_end_block_no(self, last_processed_block_no):
