@@ -49,7 +49,7 @@ package:
 
 functions:
   listen-to-ethereum-events:
-    handler: application.handlers.event_listener_handler.listen_to_ethereum_events
+    handler: application/handlers/event_listener_handler.listen_to_ethereum_events
     role: ${file(./config.${self:provider.stage}.json):ROLE}
     vpc:
       securityGroupIds:
@@ -60,7 +60,7 @@ functions:
         - ${file(./config.${self:provider.stage}.json):VPC2}
 
   monitor-events:
-    handler: application.handlers.event_listener_handler.monitor_events
+    handler: application/handlers/event_listener_handler.monitor_events
     role: ${file(./config.${self:provider.stage}.json):ROLE}
     vpc:
       securityGroupIds:

@@ -1,6 +1,9 @@
 from constant import Status
+from common.logger import get_logger
 from application.services.event_listener import EventListener
 from application.services.trigger_listener import TriggerListener
+
+logger = get_logger(__name__)
 
 
 def listen_to_ethereum_events(event, context):
@@ -11,6 +14,7 @@ def listen_to_ethereum_events(event, context):
         event_listener.fetch_events()
     except Exception as e:
         status = Status.FAILED
+        logger.info(f"Exception from service listen_to_ethereum_events:: {repr(e)}")
     return {"status": status}
 
 
@@ -19,5 +23,5 @@ def monitor_events(event, context):
         status = TriggerListener().trigger_listener_for_all_the_contracts()
     except Exception as e:
         status = Status.FAILED
-        # slack alert
+        logger.info(f"Exception from service monitor_events:: {repr(e)}")
     return {"status": status}
