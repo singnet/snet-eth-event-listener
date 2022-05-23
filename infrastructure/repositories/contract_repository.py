@@ -4,11 +4,14 @@ from infrastructure.models import Contract
 
 
 class ContractRepository(BaseRepository):
-    def get_contract(self, contract_name):
+    def get_contracts(self, contract_name=None):
         try:
-            contract = self.session.query(Contract).filter(Contract.contract_name == contract_name).first()
+            query = self.session.query(Contract)
+            if contract_name:
+                query = query.filter(Contract.contract_name == contract_name)
+            contracts_db = query.all()
             self.session.commit()
         except SQLAlchemyError as e:
             self.session.rollback()
             raise e
-        return contract
+        return contracts_db
