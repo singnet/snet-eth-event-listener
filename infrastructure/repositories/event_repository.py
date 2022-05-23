@@ -22,3 +22,12 @@ class EventRepository(BaseRepository):
                 )
             )
         self.add_all_items(events_db)
+
+    def get_events(self):
+        try:
+            events_db = self.session.query(Event).all()
+            self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            raise e
+        return events_db
