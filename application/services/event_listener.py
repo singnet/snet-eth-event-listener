@@ -14,7 +14,8 @@ event_repo = EventRepository()
 class EventListener:
     def __init__(self, contract_name):
         blockchain_util.test_connection()
-        self.contract = contract_repo.get_contract(contract_name)
+        contracts = contract_repo.get_contracts(contract_name)
+        self.contract = contracts[0] if contracts else None
         if not self.contract:
             raise Exception(f"Unable to find contract for given contract name {contract_name}.")
         self.contract_instance = blockchain_util.create_contract_instance(abi=self.contract.abi,
