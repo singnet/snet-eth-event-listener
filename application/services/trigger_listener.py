@@ -16,15 +16,17 @@ class TriggerListener:
     def trigger_listener_for_all_the_contracts():
         # Get all the contracts
         contracts = contract_repo.get_contracts()
+        response = []
 
         # Trigger event listener for all the contracts asynchronously.
         for contract in contracts:
             contract_name = contract.contract_name
             payload = json.dumps({"contract_name": contract_name})
-            response = boto_util.invoke_lambda(lambda_function_arn=EVENT_LISTENER_ARN,
-                                               invocation_type=LambdaInvocationType.Event,
-                                               payload=payload)
-            if response["StatusCode"] == StatusCode.RequestAcceptedStatusCode:
-                # notify slack channel
-                return Status.SUCCESS
-        return Status.FAILED
+            status = Status.SUCCESS
+            lambda_response = boto_util.invoke_lambda(lambda_function_arn=EVENT_LISTENER_ARN,
+                                                      invocation_type=LambdaInvocationType.Event,
+                                                      payload=payload)
+            if lambda_response["StatusCode"] != StatusCode.RequestAcceptedStatusCode:
+                status = Status.FAILED
+            response.append({contract_name: {"status": status}})
+        return response
