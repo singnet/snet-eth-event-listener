@@ -60,8 +60,7 @@ class TestValidationService(TestCase):
     def test_monitor_events(self, mock_event_listener_response):
         mock_event_listener_response.return_value = {"StatusCode": 202}
         response = monitor_events(None, None)
-        print(response)
-        assert(response["status"] == Status.SUCCESS)
+        assert(response == [{RegistryContract.name: {"status": Status.SUCCESS}}])
 
     def tearDown(self):
         contract_repo.session.query(Contract).delete()
