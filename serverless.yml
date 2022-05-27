@@ -18,7 +18,8 @@ provider:
     name: snet-serverless-artifacts
     serverSideEncryption: AES256
     tags:
-      key1: registry
+      key1: ethereum-event-listener
+      key2: ethereum-event-publisher
     deploymentPrefix: serverless
     tracing: true
 
@@ -73,3 +74,28 @@ functions:
       - schedule:
           rate: rate(2 minutes)
           enabled: ${file(./config.${self:provider.stage}.json):monitor-events-service-cron-state}
+
+  test-subscriber:
+    handler: application/handlers/event_publisher_handler.consume_event_from_publisher
+    role: ${file(./config.${self:provider.stage}.json):ROLE}
+    events:
+      - sns: arn:${file(./config.${self:provider.stage}.json):registryPublisherTopic}
+      - sns: arn:${file(./config.${self:provider.stage}.json):mpePublisherTopic}
+      - sns: arn:${file(./config.${self:provider.stage}.json):tokenStakePublisherTopic}
+
+resources:
+  Resources:
+    RegistryPublisherTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: RegistryPublisherTopic
+
+    MPEPublisherTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: MPEPublisherTopic
+
+    TokenStakePublisherTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: TokenStakePublisherTopic
