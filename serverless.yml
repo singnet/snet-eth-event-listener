@@ -79,9 +79,9 @@ functions:
     handler: application/handlers/event_publisher_handler.consume_event_from_publisher
     role: ${file(./config.${self:provider.stage}.json):ROLE}
     events:
-      - sns: arn:${file(./config.${self:provider.stage}.json):registryPublisherTopic}
-      - sns: arn:${file(./config.${self:provider.stage}.json):mpePublisherTopic}
-      - sns: arn:${file(./config.${self:provider.stage}.json):tokenStakePublisherTopic}
+      - sns: ${file(./config.${self:provider.stage}.json):registryPublisherTopic}
+      - sns: ${file(./config.${self:provider.stage}.json):mpePublisherTopic}
+      - sns: ${file(./config.${self:provider.stage}.json):tokenStakePublisherTopic}
 
 resources:
   Resources:
@@ -89,13 +89,16 @@ resources:
       Type: AWS::SNS::Topic
       Properties:
         TopicName: RegistryPublisherTopic
+        FifoTopic: true
 
     MPEPublisherTopic:
       Type: AWS::SNS::Topic
       Properties:
         TopicName: MPEPublisherTopic
+        FifoTopic: true
 
     TokenStakePublisherTopic:
       Type: AWS::SNS::Topic
       Properties:
         TopicName: TokenStakePublisherTopic
+        FifoTopic: true
