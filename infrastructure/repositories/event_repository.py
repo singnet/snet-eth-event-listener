@@ -5,7 +5,7 @@ from infrastructure.models import Event
 
 
 class EventRepository(BaseRepository):
-    def update_events(self, contract_id, contract_name, raw_events):
+    def add_events(self, contract_id, contract_name, raw_events):
         events_db = []
         for event in raw_events:
             events_db.append(
@@ -31,3 +31,26 @@ class EventRepository(BaseRepository):
             self.session.rollback()
             raise e
         return events_db
+
+    def get_unprocessed_events(self, contract_id, limit):
+        try:
+            events_db = self.session.query(Event).\
+                filter(Event.contract_id == contract_id).\
+                filter(Event.processed == 0).\
+                order_by(Event.block_no).limit(limit).all()
+            self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            raise e
+        return events_db
+
+    def mark_event_as_processed(self, event_id):
+        try:
+            event_db = self.session.query(Event).filter(Event.id == event_id).first()
+            if event_db:
+                event_db.processed = 1
+            self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            raise e
+        return event_db
