@@ -1,6 +1,7 @@
 AWS_REGION = "us-east-1"
 ETHEREUM_ENVIRONMENT = "ropsten"
 EVENT_FETCH_LIMIT = 50
+EVENT_PUBLISH_LIMIT = 50
 EVENT_LISTENER_ARN = ""
 
 class EthereumNetwork:

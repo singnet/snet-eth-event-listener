@@ -36,7 +36,7 @@ class EventListener:
 
         # update events table
         event_marker_repo.update_last_block_no(contract_id, end_block_no)
-        event_repo.update_events(contract_id, self.contract.contract_name, raw_events)
+        event_repo.add_events(contract_id, self.contract.contract_name, raw_events)
 
     def calculate_end_block_no(self, last_processed_block_no):
         blocks_adjustment = self.contract.blocks_adjustment
