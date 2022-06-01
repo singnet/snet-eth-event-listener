@@ -48,7 +48,7 @@ class Event(Base):
     data = Column("data", JSON, nullable=False)
     transaction_hash = Column("transaction_hash", VARCHAR(128), nullable=False)
     log_index = Column("log_index", Integer, nullable=False)
-    processed = Column("processed", BIT, nullable=True, default=b"0")
+    processed = Column("processed", BIT, nullable=True, default=0)
     error_code = Column("error_code", Integer, nullable=True, default=null())
     error_msg = Column("error_msg", VARCHAR(256), nullable=True, default="")
     created_at = Column("created_at", TIMESTAMP, server_default=created_at_default, nullable=False)

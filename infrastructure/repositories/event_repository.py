@@ -17,6 +17,9 @@ class EventRepository(BaseRepository):
                     data=str(dict(event["args"])),
                     transaction_hash=event["transactionHash"].hex(),
                     log_index=event["logIndex"],
+                    processed=0,
+                    error_code=0,
+                    error_msg="",
                     created_at=dt.utcnow(),
                     updated_at=dt.utcnow()
                 )
