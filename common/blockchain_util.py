@@ -30,3 +30,6 @@ class BlockChainUtil:
 
     def create_contract_instance(self, abi, network_address):
         return self.web3_object.eth.contract(abi=json.dumps(abi), address=network_address)
+
+    def get_transaction_receipt(self, transaction_hash):
+        return self.web3_object.eth.getTransactionReceipt(transaction_hash)
