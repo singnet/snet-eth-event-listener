@@ -14,6 +14,8 @@ class EventRepository(BaseRepository):
                     contract_name=contract_name,
                     event_name=event["event"],
                     block_no=event["blockNumber"],
+                    from_address=event["from_address"],
+                    to_address=event["address"],
                     data=str(dict(event["args"])),
                     transaction_hash=event["transactionHash"].hex(),
                     log_index=event["logIndex"],

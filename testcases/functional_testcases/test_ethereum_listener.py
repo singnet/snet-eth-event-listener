@@ -1,5 +1,4 @@
 from datetime import datetime as dt
-from attrdict import AttrDict
 from unittest import TestCase
 from unittest.mock import patch
 from application.handlers.event_listener_handler import listen_to_ethereum_events, monitor_events
@@ -24,8 +23,8 @@ class TestEthereumListener(TestCase):
                 environment=ETHEREUM_ENVIRONMENT,
                 contract_name=RegistryContractData.name,
                 abi=RegistryContractData.abi,
-                network_address=RegistryContractData.network_address,
-                start_block_no=RegistryContractData.start_block_no,
+                contract_address=RegistryContractData.contract_address,
+                contract_creation_block_no=RegistryContractData.contract_creation_block_no,
                 blocks_adjustment=RegistryContractData.blocks_adjustment,
                 created_at=dt.utcnow(),
                 updated_at=dt.utcnow()
@@ -48,7 +47,7 @@ class TestEthereumListener(TestCase):
         event = {"contract_name": RegistryContractData.name}
         mock_current_block_no.return_value = RegistryContractData.last_block_no + 100
         mock_contract_instance.return_value = None
-        mock_events.return_value = [AttrDict({'args': AttrDict({'orgId': b'test-org\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'}), 'event': 'OrganizationCreated', 'logIndex': 34, 'transactionIndex': 21, 'transactionHash': bytes.fromhex('c5faf4d06da986f4e83d46b5c6e06d37f83694359c7600b1ea9d9299ebdf34f8'), 'address': '0xB12089BD3F20A2C546FAad4167A08C57584f89C8', 'blockHash': bytes.fromhex('becbb196787436c1917fe33404ca3974a27ead05847168ea30cbfac5b4f94166'), 'blockNumber': 10908547})]
+        mock_events.return_value = [dict({'args': dict({'orgId': b'test-org\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'}), 'event': 'OrganizationCreated', 'logIndex': 34, 'transactionIndex': 21, 'transactionHash': bytes.fromhex('c5faf4d06da986f4e83d46b5c6e06d37f83694359c7600b1ea9d9299ebdf34f8'), 'address': '0xB12089BD3F20A2C546FAad4167A08C57584f89C8', 'blockHash': bytes.fromhex('becbb196787436c1917fe33404ca3974a27ead05847168ea30cbfac5b4f94166'), 'blockNumber': 10908547})]
         self.tearDown()
         self.setUp()
         response = listen_to_ethereum_events(event, None)

@@ -15,15 +15,15 @@ class Contract(Base):
     environment = Column("environment", VARCHAR(64), nullable=False)
     contract_name = Column("contract_name", VARCHAR(64), nullable=False)
     abi = Column("abi", JSON, nullable=False)
-    network_address = Column("network_address", VARCHAR(128), nullable=False)
-    start_block_no = Column("start_block_no", Integer, nullable=False)
+    contract_address = Column("contract_address", VARCHAR(128), nullable=False)
+    contract_creation_block_no = Column("contract_creation_block_no", Integer, nullable=False)
     blocks_adjustment = Column("blocks_adjustment", Integer, nullable=False)
     created_at = Column("created_at", TIMESTAMP, server_default=created_at_default, nullable=False)
     updated_at = Column("updated_at", TIMESTAMP, server_default=updated_at_default, nullable=False)
     event = relationship("Event", backref='contract', lazy='joined')
     event_marker = relationship("EventMarker", backref='contract', lazy='joined')
     registered_topics = relationship("RegisteredTopics", backref='contract', lazy='joined')
-    UniqueConstraint(network_address, name="uq_ct")
+    UniqueConstraint(contract_address, name="uq_ct")
 
 
 class EventMarker(Base):
@@ -45,6 +45,8 @@ class Event(Base):
     contract_name = Column("contract_name", VARCHAR(64), nullable=False)
     event_name = Column("event_name", VARCHAR(64), nullable=False)
     block_no = Column("block_no", Integer, nullable=False)
+    from_address = Column("from_address", VARCHAR(128), nullable=False)
+    to_address = Column("to_address", VARCHAR(128), nullable=False)
     data = Column("data", JSON, nullable=False)
     transaction_hash = Column("transaction_hash", VARCHAR(128), nullable=False)
     log_index = Column("log_index", Integer, nullable=False)

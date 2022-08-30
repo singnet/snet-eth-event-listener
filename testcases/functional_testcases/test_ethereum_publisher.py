@@ -26,8 +26,8 @@ class TestEthereumPublisher(TestCase):
                 environment=ETHEREUM_ENVIRONMENT,
                 contract_name=RegistryContractData.name,
                 abi=RegistryContractData.abi,
-                network_address=RegistryContractData.network_address,
-                start_block_no=RegistryContractData.start_block_no,
+                network_address=RegistryContractData.contract_address,
+                start_block_no=RegistryContractData.contract_creation_block_no,
                 blocks_adjustment=RegistryContractData.blocks_adjustment,
                 created_at=dt.utcnow(),
                 updated_at=dt.utcnow()
