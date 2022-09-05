@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append('/opt')
+
 from common.logger import get_logger
 from constant import Status
 from application.services.event_publisher import EventPublisher
