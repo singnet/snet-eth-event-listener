@@ -59,6 +59,8 @@ functions:
       subnetIds:
         - ${file(./config.${self:provider.stage}.json):VPC1}
         - ${file(./config.${self:provider.stage}.json):VPC2}
+    layers:
+        - ${file(./config.${self:provider.stage}.json):EthEventListener}
 
   monitor-events:
     handler: application/handlers/event_listener_handler.monitor_events
@@ -70,6 +72,8 @@ functions:
       subnetIds:
         - ${file(./config.${self:provider.stage}.json):VPC1}
         - ${file(./config.${self:provider.stage}.json):VPC2}
+    layers:
+        - ${file(./config.${self:provider.stage}.json):EthEventListener}
     events:
       - schedule:
           rate: rate(2 minutes)
@@ -85,6 +89,8 @@ functions:
       subnetIds:
         - ${file(./config.${self:provider.stage}.json):VPC1}
         - ${file(./config.${self:provider.stage}.json):VPC2}
+    layers:
+        - ${file(./config.${self:provider.stage}.json):EthEventListener}
     events:
       - schedule:
           rate: rate(2 minutes)

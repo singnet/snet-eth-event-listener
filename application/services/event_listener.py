@@ -62,6 +62,3 @@ class EventListener:
                                                               toBlock=end_block_no).get_all_entries()
                 events.extend([dict(event) for event in blockchain_events])
         return events
-
-if __name__ == '__main__':
-    EventListener(contract_name="Registry").fetch_events()
