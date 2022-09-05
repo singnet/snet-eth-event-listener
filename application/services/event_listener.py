@@ -1,4 +1,3 @@
-import main
 from config import EVENT_FETCH_LIMIT
 from common.blockchain_util import BlockChainUtil
 from infrastructure.repositories.contract_repository import ContractRepository
