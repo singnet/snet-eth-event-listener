@@ -31,19 +31,5 @@ class BlockChainUtil:
     def create_contract_instance(self, abi, network_address):
         return self.web3_object.eth.contract(abi=json.dumps(abi), address=network_address)
 
-
-
-    # def __init__(self, provider_type, provider_url):
-    #     if provider_type == "HTTP_PROVIDER":
-    #         self.provider = Web3.HTTPProvider(provider_url)
-    #     elif provider_type == "WS_PROVIDER":
-    #         self.provider = web3.providers.WebsocketProvider(provider_url)
-    #     else:
-    #         raise Exception("Only HTTP_PROVIDER and WS_PROVIDER provider type are supported.")
-    #     self.web3_object = Web3(self.provider)
-    #
-    # def get_transaction_receipt(self, transaction_hash):
-    #     return self.web3_object.eth.getTransactionReceipt(transaction_hash)
-    #
-    # def reset_web3_connection(self):
-    #     self.web3_object = Web3(self.provider)
+    def get_transaction_receipt(self, transaction_hash):
+        return self.web3_object.eth.getTransactionReceipt(transaction_hash)

@@ -19,7 +19,7 @@ class EventListener:
         if not self.contract:
             raise Exception(f"Unable to find contract for given contract name {contract_name}.")
         self.contract_instance = blockchain_util.create_contract_instance(abi=self.contract.abi,
-                                                                          network_address=self.contract.network_address)
+                                                                          network_address=self.contract.contract_address)
 
     def fetch_events(self):
         contract_id = self.contract.id
@@ -33,10 +33,15 @@ class EventListener:
 
         # fetch events from blockchain
         raw_events = self.get_events(start_block_no, end_block_no)
+        for event in raw_events:
+            transaction_hash = event["transactionHash"].hex()
+            transaction_receipt = blockchain_util.get_transaction_receipt(transaction_hash)
+            from_address = transaction_receipt["from"]
+            event.update({"from_address": from_address})
 
         # update events table
         event_marker_repo.update_last_block_no(contract_id, end_block_no)
-        event_repo.update_events(contract_id, self.contract.contract_name, raw_events)
+        event_repo.add_events(contract_id, self.contract.contract_name, raw_events)
 
     def calculate_end_block_no(self, last_processed_block_no):
         blocks_adjustment = self.contract.blocks_adjustment
@@ -54,5 +59,5 @@ class EventListener:
                 event_object = getattr(self.contract_instance.events, event_name)
                 blockchain_events = event_object.createFilter(fromBlock=start_block_no,
                                                               toBlock=end_block_no).get_all_entries()
-                events.extend(blockchain_events)
+                events.extend([dict(event) for event in blockchain_events])
         return events
