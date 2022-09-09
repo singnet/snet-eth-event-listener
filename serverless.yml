@@ -10,8 +10,8 @@ provider:
   name: aws
   runtime: python3.7
   description: Ethereum event listener
-  memorySize: 512
-  timeout: 90
+  memorySize: 1024
+  timeout: 180
   region: ${file(./config.${self:provider.stage}.json):REGION}
   stage: ${opt:stage,'dev'}
   deploymentBucket:
