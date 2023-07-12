@@ -71,7 +71,7 @@ class EventListener:
             if attributes['type'] == 'event':
                 event_name = attributes['name']
                 event_object = getattr(self.contract_instance.events, event_name)
-                blockchain_events = event_object.createFilter(fromBlock=start_block_no,
+                blockchain_events = event_object.create_filter(fromBlock=start_block_no,
                                                               toBlock=end_block_no).get_all_entries()
                 events.extend([dict(event) for event in blockchain_events])
         return events
