@@ -9,7 +9,6 @@ service: eth-event-listener
 provider:
   name: aws
   runtime: python3.7
-  description: Ethereum event listener
   memorySize: 1024
   timeout: 180
   region: ${file(./config.${self:provider.stage}.json):REGION}
@@ -20,8 +19,8 @@ provider:
     tags:
       key1: ethereum-event-listener
       key2: ethereum-event-publisher
-    deploymentPrefix: serverless
-    tracing: true
+  deploymentPrefix: serverless
+  tracing: true
 
 custom:
   pythonRequirements:
