@@ -1,12 +1,12 @@
 AWS_REGION = "us-east-1"
-ETHEREUM_ENVIRONMENT = "ropsten"
+ETHEREUM_ENVIRONMENT = "goerli"
 EVENT_FETCH_LIMIT = 50
 EVENT_PUBLISH_LIMIT = 50
 EVENT_LISTENER_ARN = ""
 
 class EthereumNetwork:
     name = ETHEREUM_ENVIRONMENT
-    id = 3
+    id = 5
     default_provider = "HttpProvider"
 
 
@@ -24,7 +24,7 @@ class WebSocketProvider:
 
 class AlternateEthereumNetwork:
     name = ETHEREUM_ENVIRONMENT
-    id = 3
+    id = 5
 
 
 DB_DETAILS = {
@@ -35,4 +35,3 @@ DB_DETAILS = {
     "name": "ethereum_events_unittest_db",
     "port": 3306
 }
-

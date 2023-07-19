@@ -138,3 +138,15 @@ resources:
       Properties:
         TopicName: ${self:provider.stage}NTXBridgePublisherTopic.fifo
         FifoTopic: true
+
+    RJVBridgePublisherTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${self:provider.stage}RJVBridgePublisherTopic.fifo
+        FifoTopic: true
+
+    CGVBridgePublisherTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${self:provider.stage}CGVBridgePublisherTopic.fifo
+        FifoTopic: true
