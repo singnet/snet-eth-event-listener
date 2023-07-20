@@ -149,4 +149,3 @@ resources:
       Type: AWS::SNS::Topic
       Properties:
         TopicName: ${self:provider.stage}CGVBridgePublisherTopic
-        FifoTopic: false
