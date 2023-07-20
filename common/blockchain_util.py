@@ -1,3 +1,4 @@
+import json
 from web3 import Web3
 from config import EthereumNetwork, HttpProvider
 from common.logger import get_logger
@@ -29,7 +30,7 @@ class BlockChainUtil:
 
     def create_contract_instance(self, abi, network_address):
         self.test_connection()
-        return self.web3_object.eth.contract(abi=abi, address=network_address)
+        return self.web3_object.eth.contract(abi=json.dumps(abi), address=network_address)
 
     def get_transaction_receipt(self, transaction_hash):
         self.test_connection()
