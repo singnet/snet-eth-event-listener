@@ -24,12 +24,23 @@ class EventPublisher:
         for event in events:
             logger.info(f"Processing block_no {event.block_no} | contract {event.contract_name} | transaction_hash {event.transaction_hash} | log_index {event.log_index}")
             payload = {
-                "block_no": event.block_no,
-                "contract_name": event.contract_name,
-                "event_name": event.event_name,
-                "data": event.data,
-                "log_index": event.log_index,
-                "transaction_hash": event.transaction_hash
+                "blockchain_name": "Binance",
+                "blockchain_event": {
+                    "data": {
+                        "row_id": event.id,
+                        "block_no": event.block_no,
+                        "uncle_block_no": event.block_no,
+                        "json_str": event.data,
+                        "processed": event.processed,
+                        "transactionHash": event.transaction_hash,
+                        "logIndex": event.log_index,
+                        "error_code": event.error_code,
+                        "error_msg": event.error_msg,
+                        "row_updated": event.updated_at,
+                        "row_created": event.created_at,
+                    },
+                    "name": event.event_name
+                }
             }
             message_group_id = event.event_name
             message_deduplication_id = str(event.id)
