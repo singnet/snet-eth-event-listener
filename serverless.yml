@@ -97,54 +97,6 @@ functions:
 
 resources:
   Resources:
-    RegistryPublisherTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: ${self:provider.stage}RegistryPublisherTopic.fifo
-        FifoTopic: true
-
-    MPEPublisherTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: ${self:provider.stage}MPEPublisherTopic.fifo
-        FifoTopic: true
-
-    TokenStakePublisherTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: ${self:provider.stage}TokenStakePublisherTopic.fifo
-        FifoTopic: true
-
-    NunetAirdropPublisherTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: ${self:provider.stage}NunetAirdropPublisherTopic.fifo
-        FifoTopic: true
-
-    OccamPublisherTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: ${self:provider.stage}OccamPublisherTopic.fifo
-        FifoTopic: true
-
-    AGIXBridgePublisherTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: ${self:provider.stage}AGIXBridgePublisherTopic.fifo
-        FifoTopic: true
-
-    NTXBridgePublisherTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: ${self:provider.stage}NTXBridgePublisherTopic.fifo
-        FifoTopic: true
-
-    RJVBridgePublisherTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: ${self:provider.stage}RJVBridgePublisherTopic.fifo
-        FifoTopic: true
-
     CGVBridgePublisherTopic:
       Type: AWS::SNS::Topic
       Properties:
