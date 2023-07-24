@@ -36,8 +36,8 @@ class EventPublisher:
                         "logIndex": event.log_index,
                         "error_code": event.error_code,
                         "error_msg": event.error_msg,
-                        "row_updated": event.updated_at,
-                        "row_created": event.created_at,
+                        "row_updated": str(event.updated_at),
+                        "row_created": str(event.created_at),
                     },
                     "name": event.event_name
                 }
