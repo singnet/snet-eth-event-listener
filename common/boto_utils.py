@@ -31,13 +31,11 @@ class BotoUtils:
             return lambda_response
         return json.loads(lambda_response.get('Payload').read())
 
-    def publish_to_sns_topic(self, arn, payload, message_group_id, message_deduplication_id):
+    def publish_to_sns_topic(self, arn, payload):
         client = boto3.client('sns', region_name=self.region_name)
         response = client.publish(
             TargetArn=arn,
             Message=json.dumps({'default': json.dumps(payload)}),
-            MessageStructure='json',
-            MessageGroupId=message_group_id,
-            MessageDeduplicationId=message_deduplication_id
+            MessageStructure='json'
         )
         return response
