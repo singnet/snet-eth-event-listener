@@ -42,9 +42,7 @@ class EventPublisher:
                     "name": event.event_name
                 }
             }
-            message_group_id = event.event_name
-            message_deduplication_id = str(event.id)
-            response = boto_util.publish_to_sns_topic(arn, payload, message_group_id, message_deduplication_id)
+            response = boto_util.publish_to_sns_topic(arn, payload)
             if response["ResponseMetadata"]["HTTPStatusCode"] == 200:
                 EventRepository().mark_event_as_processed(event_id=event.id)
             else:
