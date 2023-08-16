@@ -9,7 +9,6 @@ service: eth-event-listener
 provider:
   name: aws
   runtime: python3.7
-  description: Ethereum event listener
   memorySize: 1024
   timeout: 180
   region: ${file(./config.${self:provider.stage}.json):REGION}
@@ -20,8 +19,8 @@ provider:
     tags:
       key1: ethereum-event-listener
       key2: ethereum-event-publisher
-    deploymentPrefix: serverless
-    tracing: true
+  deploymentPrefix: serverless
+  tracing: true
 
 custom:
   pythonRequirements:
@@ -98,44 +97,7 @@ functions:
 
 resources:
   Resources:
-    RegistryPublisherTopic:
+    CGVBridgePublisherTopic:
       Type: AWS::SNS::Topic
       Properties:
-        TopicName: ${self:provider.stage}RegistryPublisherTopic.fifo
-        FifoTopic: true
-
-    MPEPublisherTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: ${self:provider.stage}MPEPublisherTopic.fifo
-        FifoTopic: true
-
-    TokenStakePublisherTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: ${self:provider.stage}TokenStakePublisherTopic.fifo
-        FifoTopic: true
-
-    NunetAirdropPublisherTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: ${self:provider.stage}NunetAirdropPublisherTopic.fifo
-        FifoTopic: true
-
-    OccamPublisherTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: ${self:provider.stage}OccamPublisherTopic.fifo
-        FifoTopic: true
-
-    AGIXBridgePublisherTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: ${self:provider.stage}AGIXBridgePublisherTopic.fifo
-        FifoTopic: true
-
-    NTXBridgePublisherTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: ${self:provider.stage}NTXBridgePublisherTopic.fifo
-        FifoTopic: true
+        TopicName: ${self:provider.stage}CGVBridgePublisherTopic
