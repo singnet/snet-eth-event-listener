@@ -4,7 +4,7 @@ from infrastructure.repositories.registered_topics_repo import RegisteredTopicsR
 from common.boto_utils import BotoUtils
 from common.logger import get_logger
 
-# todo get event publist limit from db
+# todo get event publish limit from db
 from config import EVENT_PUBLISH_LIMIT, AWS_REGION
 
 boto_util = BotoUtils(region_name=AWS_REGION)
@@ -26,7 +26,7 @@ class EventPublisher:
         for event in events:
             logger.info(f"Processing block_no {event.block_no} | contract {event.contract_name} | transaction_hash {event.transaction_hash} | log_index {event.log_index}")
             payload = {
-                # todo: get <blockchain_name> from database
+                # todo: get <blockchain_name> from event
                 "blockchain_name": "Binance",
                 "blockchain_event": {
                     "data": {

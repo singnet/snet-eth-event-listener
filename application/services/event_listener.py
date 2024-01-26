@@ -1,16 +1,18 @@
 import math
 # todo: get fetch event limit from db
-from config import EVENT_FETCH_LIMIT
+# $REMOVE$ from config import EVENT_FETCH_LIMIT
 
 from common.blockchain_util import BlockChainUtil
 from infrastructure.repositories.contract_repository import ContractRepository
 from infrastructure.repositories.event_marker_repository import EventMarkerRepository
 from infrastructure.repositories.event_repository import EventRepository
+from infrastructure.repositories.network_repository import NetworkRepository
 from websockets import ConnectionClosed
 
 contract_repo = ContractRepository()
 event_marker_repo = EventMarkerRepository()
 event_repo = EventRepository()
+network_repo = NetworkRepository()
 
 
 class EventListener:
@@ -61,7 +63,11 @@ class EventListener:
     def calculate_end_block_no(self, last_processed_block_no):
         blocks_adjustment = self.contract.blocks_adjustment
         current_block_no = self.blockchain_util.get_current_block_no()
-        end_block_no = last_processed_block_no + EVENT_FETCH_LIMIT - 1
+
+        # todo: get event fetch limit
+        network_information = network_repo.get_network(self.contract.network)
+
+        end_block_no = last_processed_block_no + network_information.fetch_limit - 1
         if end_block_no > (current_block_no - blocks_adjustment):
             end_block_no = current_block_no - blocks_adjustment
         return end_block_no
