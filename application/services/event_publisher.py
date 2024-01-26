@@ -3,6 +3,8 @@ from infrastructure.repositories.contract_repository import ContractRepository
 from infrastructure.repositories.registered_topics_repo import RegisteredTopicsRepository
 from common.boto_utils import BotoUtils
 from common.logger import get_logger
+
+# todo get event publist limit from db
 from config import EVENT_PUBLISH_LIMIT, AWS_REGION
 
 boto_util = BotoUtils(region_name=AWS_REGION)
@@ -24,6 +26,7 @@ class EventPublisher:
         for event in events:
             logger.info(f"Processing block_no {event.block_no} | contract {event.contract_name} | transaction_hash {event.transaction_hash} | log_index {event.log_index}")
             payload = {
+                # todo: get <blockchain_name> from database
                 "blockchain_name": "Binance",
                 "blockchain_event": {
                     "data": {
@@ -46,5 +49,6 @@ class EventPublisher:
             if response["ResponseMetadata"]["HTTPStatusCode"] == 200:
                 EventRepository().mark_event_as_processed(event_id=event.id)
             else:
-                # report slack
+                # todo:
+                # report to mattermost
                 break

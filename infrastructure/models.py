@@ -9,10 +9,22 @@ created_at_default = func.current_timestamp()
 updated_at_default = func.current_timestamp()
 
 
+class Blockchain(Base):
+    __tablename__ = 'blockchain'
+    id = Column("row_id", Integer, primary_key=True, autoincrement=True)
+    blockchain_name = Column("blockchain_name", VARCHAR(255), nullable=False)
+    chain_id = Column("chain_id", Integer, nullable=False, unique=True)
+    rpc_provider = Column("rpc_provider", VARCHAR(255), nullable=False)
+    fetch_limit = Column("fetch_limit_events", Integer, nullable=False)
+    publish_limit = Column("publish_limit_events", Integer, nullable=False)
+    created_at = Column("created_at", TIMESTAMP, server_default=created_at_default, nullable=False)
+    updated_at = Column("updated_at", TIMESTAMP, server_default=updated_at_default, nullable=False)
+
+
 class Contract(Base):
     __tablename__ = "contract"
     id = Column("row_id", Integer, primary_key=True, autoincrement=True)
-    environment = Column("environment", VARCHAR(64), nullable=False)
+    environment = Column("chain_id", Integer, nullable=False, ForeignKey="Blockchain.row_id")
     contract_name = Column("contract_name", VARCHAR(64), nullable=False)
     abi = Column("abi", JSON, nullable=False)
     contract_address = Column("contract_address", VARCHAR(128), nullable=False)
@@ -29,6 +41,7 @@ class Contract(Base):
 class EventMarker(Base):
     __tablename__ = "event_marker"
     id = Column("row_id", Integer, primary_key=True, autoincrement=True)
+    chain = Column("chain_id", Integer, nullable=False, ForeignKey=Blockchain.id)
     contract_id = Column("contract_id", Integer, ForeignKey("contract.row_id", ondelete="CASCADE", onupdate="CASCADE"),
                          nullable=False)
     last_block_no = Column("last_block_no", Integer, nullable=False)

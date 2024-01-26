@@ -1,12 +1,12 @@
 import math
+# todo: get fetch event limit from db
 from config import EVENT_FETCH_LIMIT
+
 from common.blockchain_util import BlockChainUtil
 from infrastructure.repositories.contract_repository import ContractRepository
 from infrastructure.repositories.event_marker_repository import EventMarkerRepository
 from infrastructure.repositories.event_repository import EventRepository
 from websockets import ConnectionClosed
-
-blockchain_util = BlockChainUtil()
 
 contract_repo = ContractRepository()
 event_marker_repo = EventMarkerRepository()
@@ -15,13 +15,14 @@ event_repo = EventRepository()
 
 class EventListener:
     def __init__(self, contract_name):
-        blockchain_util.test_connection()
         contracts = contract_repo.get_contracts(contract_name)
         self.contract = contracts[0] if contracts else None
+        self.blockchain_util = BlockChainUtil(self.contract.chain_id)
+        self.blockchain_util.test_connection()
         if not self.contract:
             raise Exception(f"Unable to find contract for given contract name {contract_name}.")
-        self.contract_instance = blockchain_util.create_contract_instance(abi=self.contract.abi,
-                                                                          network_address=self.contract.contract_address)
+        self.contract_instance = self.blockchain_util.create_contract_instance(abi=self.contract.abi,
+                                                                               address=self.contract.contract_address)
 
     def fetch_events(self):
         contract_id = self.contract.id
@@ -48,7 +49,7 @@ class EventListener:
             if transaction_hash in tx_receipts.keys():
                 transaction_receipt = tx_receipts[transaction_hash]
             else:
-                transaction_receipt = blockchain_util.get_transaction_receipt(transaction_hash)
+                transaction_receipt = self.blockchain_util.get_transaction_receipt(transaction_hash)
             tx_receipts[transaction_hash] = transaction_receipt
             from_address = transaction_receipt["from"]
             event.update({"from_address": from_address})
@@ -59,7 +60,7 @@ class EventListener:
 
     def calculate_end_block_no(self, last_processed_block_no):
         blocks_adjustment = self.contract.blocks_adjustment
-        current_block_no = blockchain_util.get_current_block_no()
+        current_block_no = self.blockchain_util.get_current_block_no()
         end_block_no = last_processed_block_no + EVENT_FETCH_LIMIT - 1
         if end_block_no > (current_block_no - blocks_adjustment):
             end_block_no = current_block_no - blocks_adjustment
