@@ -8,7 +8,9 @@ from infrastructure.repositories.network_repository import NetworkRepository
 logger = get_logger(__name__)
 network_repository = NetworkRepository()
 
+
 class BlockChainUtil:
+
     def __init__(self, network_id: int):
         self.provider_class = eval(EthereumNetwork.default_provider)
         network = network_repository.get_network(network_id)
