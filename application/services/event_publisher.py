@@ -32,7 +32,7 @@ class EventPublisher:
                         "uncle_block_no": event.block_no,
                         "json_str": event.data,
                         "processed": event.processed,
-                        "transactionHash": event.transaction_hash,
+                        "transaction_hash": event.transaction_hash,
                         "logIndex": event.log_index,
                         "error_code": event.error_code,
                         "error_msg": event.error_msg,
